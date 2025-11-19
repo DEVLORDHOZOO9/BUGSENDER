@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WhatsApp Bug Sender</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 50px;
+        }
+        input[type="text"] {
+            background-color: black;
+            color: white;
+            border: 1px solid red;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WhatsApp Bug Sender</h1>
+        <input type="text" id="targetNumber" placeholder="Nomor Target (contoh: 628xxxxxxxxxx)">
+        <button onclick="sendBug()">Execute</button>
+        <div id="status"></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function sendBug() {
+            const targetNumber = document.getElementById('targetNumber').value;
+            document.getElementById('status').innerText = 'Sending bug...';
+            socket.emit('sendBug', targetNumber);
+        }
+
+        socket.on('status', (message) => {
+            document.getElementById('status').innerText = message;
+        });
+    </script>
+</body>
+</html>
